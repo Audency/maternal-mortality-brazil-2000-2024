@@ -1,0 +1,21 @@
+# R
+.Rhistory
+.Rdata
+.RData
+.Ruserdata
+*.Rproj.user/
+
+# Data files (too large for git)
+dados_datasus/*.rds
+dados_datasus/*.dbc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large image files
+*.tiff
+
+# Temporary
+*.tmp
+*~
