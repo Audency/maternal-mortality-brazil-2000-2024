@@ -119,9 +119,9 @@ Between 2000 and 2023, Brazil recorded approximately 40 000 maternal deaths amon
 
 ### Profile of maternal deaths
 
-Table 8 presents the sociodemographic and clinical profile of maternal deaths by study period. Across all periods, the majority of maternal deaths occurred among women aged 20–34 years, although the ≥35-year age group was disproportionately affected relative to its share of livebirths. Brown (Parda) women accounted for the largest absolute number of deaths (approximately 48%), followed by White women (30%), reflecting the population composition. Most deaths occurred in hospital settings (approximately 85%), and medical assistance was recorded in 75% of cases. Notably, autopsy was performed in only 20% of maternal deaths, limiting post-mortem diagnostic accuracy. Death investigation by Maternal Mortality Committees increased progressively from 40% in the pre-Rede Cegonha period to over 70% in recent years. Single women comprised the largest marital status group (approximately 35%), followed by married women (25%) and those in stable unions (22%).
+Table 3 presents the sociodemographic and clinical profile of maternal deaths by study period. Across all periods, the majority of maternal deaths occurred among women aged 20–34 years, although the ≥35-year age group was disproportionately affected relative to its share of livebirths. Brown (Parda) women accounted for the largest absolute number of deaths (approximately 48%), followed by White women (30%), reflecting the population composition. Most deaths occurred in hospital settings (approximately 85%), and medical assistance was recorded in 75% of cases. Notably, autopsy was performed in only 20% of maternal deaths, limiting post-mortem diagnostic accuracy. Death investigation by Maternal Mortality Committees increased progressively from 40% in the pre-Rede Cegonha period to over 70% in recent years. Single women comprised the largest marital status group (approximately 35%), followed by married women (25%) and those in stable unions (22%).
 
-**Table 8. Sociodemographic and clinical profile of maternal deaths by period, Brazil, 2000–2023**
+**Table 3. Sociodemographic and clinical profile of maternal deaths by period, Brazil, 2000–2023**
 
 | Variable | Category | 2000–2010 | 2011–2019 | 2020–2021 | 2022+ |
 |----------|----------|-----------|-----------|-----------|-------|
@@ -158,9 +158,9 @@ Table 8 presents the sociodemographic and clinical profile of maternal deaths by
 
 The age-standardised MMR followed a pattern closely parallel to the crude MMR, confirming that observed trends were not driven by changes in the age composition of mothers over time.
 
-Prais-Winsten regression showed a statistically significant declining trend during the pre-Rede Cegonha period (2000–2010; APC −2·94%, 95% CI −3·13 to −2·74). During 2011–2019, the trend reversed to a slight but significant increase (APC 0·70%, 0·06 to 1·34). For the overall period (2000–2023), the APC was −0·50% (−2·08 to 1·11), which was not statistically significant owing to the opposing trends before and after 2011 and the COVID-19 disruption (table 5).
+Prais-Winsten regression showed a statistically significant declining trend during the pre-Rede Cegonha period (2000–2010; APC −2·94%, 95% CI −3·13 to −2·74). During 2011–2019, the trend reversed to a slight but significant increase (APC 0·70%, 0·06 to 1·34). For the overall period (2000–2023), the APC was −0·50% (−2·08 to 1·11), which was not statistically significant owing to the opposing trends before and after 2011 and the COVID-19 disruption (table 4).
 
-**Table 5. Annual percentage change (APC) of MMR — Prais-Winsten regression, Brazil, 2000–2023**
+**Table 4. Annual percentage change (APC) of MMR — Prais-Winsten regression, Brazil, 2000–2023**
 
 | Stratum | APC % (95% CI) | p-value | Trend |
 |---------|---------------|---------|-------|
@@ -173,55 +173,49 @@ Prais-Winsten regression showed a statistically significant declining trend duri
 | South | −0·15 (−1·50; 1·22) | 0·825 | Stationary |
 | Central-West | −0·64 (−2·26; 1·00) | 0·442 | Stationary |
 
-*APC = annual percentage change. GLS regression with AR(1) correction applied to log(MMR).*
+**Panel B. Crude and adjusted regression models — log(MMR)**
 
-### Regional patterns
+| Variable | β crude (95% CI) | p (crude) | β adjusted (95% CI) | p (adjusted) |
+|----------|-------------------|-----------|----------------------|--------------|
+| Time trend | −0·030 (−0·046; −0·014) | <0·001 | −0·032 (−0·051; −0·013) | 0·002 |
+| Rede Cegonha | −0·069 (−0·209; 0·071) | 0·317 | −0·051 (−0·199; 0·098) | 0·482 |
+| COVID-19 intensity | 0·281 (0·178; 0·383) | <0·001 | 0·369 (0·285; 0·453) | <0·001 |
 
-The North region consistently had the highest MMR throughout the study period, averaging 1·35 times the national ratio, followed by the Northeast (1·20 times). The Southeast and South had MMR below the national average (0·85 and 0·75 times, respectively). All regions showed similar temporal patterns—declining MMR from 2000 to 2010, stagnation from 2011 to 2019, and a sharp spike in 2020–2021—but the magnitude of the COVID-19 surge was greatest in the North (figure 2).
+*Panel A: APC = annual percentage change; GLS with AR(1) correction on log(MMR). Panel B: adjusted model R² = 0·854.*
 
-**Table 2. Mean maternal mortality ratio by region and period, Brazil, 2000–2023 (per 100 000 livebirths)**
+### Inequalities by region, race/ethnicity, and age
 
-| Region | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
-|--------|-----------|-----------|-----------|-----------|
-| North | 86·3 | 74·2 | 122·3 | 78·5 |
-| Northeast | 76·5 | 66·1 | 108·7 | 69·8 |
-| Southeast | 54·2 | 46·8 | 77·0 | 49·5 |
-| South | 47·8 | 41·3 | 67·9 | 43·6 |
-| Central-West | 57·4 | 49·6 | 81·5 | 52·4 |
+Marked inequalities in the MMR persisted across all study periods and were amplified during the COVID-19 pandemic (table 2). The North region consistently had the highest MMR, averaging 1·35 times the national ratio, followed by the Northeast (1·20 times). The Southeast and South had MMR below the national average (figure 2). Indigenous women had the highest MMR throughout the study period, approximately 2·5 times the rate among White women. Black women had an MMR approximately 1·9 times higher than White women, while Brown (Parda) women had an MMR approximately 1·1 times higher. These racial disparities were exacerbated during the pandemic: the relative increase in MMR from 2019 to 2021 was greatest among Black and Indigenous women (figure 3). Women aged ≥35 years had the highest MMR, approximately 1·9 times the overall rate, followed by adolescents (<20 years), while the 20–34-year age group had the lowest risk (figure 4).
+
+**Table 2. Mean MMR by region, race/ethnicity, and age group across study periods, Brazil, 2000–2023 (per 100 000 livebirths)**
+
+| Stratum | | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
+|---------|-----------|-----------|-----------|-----------|-----------|
+| **Region** | North | 86·3 | 74·2 | 122·3 | 78·5 |
+| | Northeast | 76·5 | 66·1 | 108·7 | 69·8 |
+| | Southeast | 54·2 | 46·8 | 77·0 | 49·5 |
+| | South | 47·8 | 41·3 | 67·9 | 43·6 |
+| | Central-West | 57·4 | 49·6 | 81·5 | 52·4 |
+| **Race/Ethnicity** | White | 44·7 | 38·5 | 63·4 | 40·7 |
+| | Black | 121·0 | 104·3 | 171·7 | 110·3 |
+| | Brown (Parda) | 70·2 | 60·6 | 99·7 | 64·1 |
+| | Indigenous | 159·5 | 137·5 | 226·5 | 145·5 |
+| | Asian (Amarela) | 41·5 | 35·8 | 58·9 | 37·8 |
+| **Age group** | <20 years | 73·4 | 63·4 | 104·2 | 66·9 |
+| | 20–34 years | 51·0 | 44·1 | 72·5 | 46·6 |
+| | ≥35 years | 121·2 | 104·7 | 172·1 | 110·6 |
+
+*MMR = maternal mortality ratio per 100 000 livebirths.*
 
 ![Figure 2. Maternal mortality ratio by geographic region, Brazil, 2000–2023](resultados/figuras_publicacao/figure2.png)
 
-### Racial and ethnic inequalities
-
-Indigenous women had the highest MMR throughout the study period, averaging approximately 2·5 times the rate among White women. Black women had an MMR approximately 1·9 times higher than White women, while Brown (Parda) women had an MMR approximately 1·1 times higher. These disparities persisted across all time periods and were exacerbated during the COVID-19 pandemic: the relative increase in MMR from 2019 to 2021 was greatest among Black and Indigenous women (figure 3).
-
-**Table 3. Mean maternal mortality ratio by race/ethnicity and period, Brazil, 2000–2023 (per 100 000 livebirths)**
-
-| Race/Ethnicity | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
-|----------------|-----------|-----------|-----------|-----------|
-| White | 44·7 | 38·5 | 63·4 | 40·7 |
-| Black | 121·0 | 104·3 | 171·7 | 110·3 |
-| Brown (Parda) | 70·2 | 60·6 | 99·7 | 64·1 |
-| Indigenous | 159·5 | 137·5 | 226·5 | 145·5 |
-| Asian (Amarela) | 41·5 | 35·8 | 58·9 | 37·8 |
-
 ![Figure 3. Maternal mortality ratio by race/ethnicity, Brazil, 2000–2023](resultados/figuras_publicacao/figure3.png)
-
-### Age and education gradients
-
-Women aged 35 years and older had the highest MMR, approximately 1·9 times the overall rate, followed by adolescents (<20 years, approximately 1·15 times). The 20–34-year age group had the lowest risk (figure 4).
-
-**Table 4. Mean maternal mortality ratio by maternal age and period, Brazil, 2000–2023 (per 100 000 livebirths)**
-
-| Age group | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
-|-----------|-----------|-----------|-----------|-----------|
-| <20 years | 73·4 | 63·4 | 104·2 | 66·9 |
-| 20–34 years | 51·0 | 44·1 | 72·5 | 46·6 |
-| ≥35 years | 121·2 | 104·7 | 172·1 | 110·6 |
 
 ![Figure 4. Maternal mortality ratio by maternal age group, Brazil, 2000–2023](resultados/figuras_publicacao/figure4.png)
 
-A steep educational gradient was observed: women with no formal education or incomplete primary schooling had an MMR approximately 1·8 times the national average, while those with complete tertiary education had an MMR less than half the national average (approximately 0·45 times). This gradient was consistent across all periods and widened during the pandemic.
+### Education gradient
+
+A steep educational gradient was observed: women with no formal education or incomplete primary schooling had an MMR approximately 1·8 times the national average, while those with complete tertiary education had an MMR less than half the national average (approximately 0·45 times). This gradient was consistent across all periods and widened during the pandemic (figure 7).
 
 ![Figure 7. Maternal mortality ratio by maternal education level, Brazil, 2000–2023](resultados/figuras_publicacao/figure7.png)
 
@@ -255,9 +249,9 @@ Figure 15 shows the temporal evolution of the spatial pattern across four period
 
 The ITS model showed a statistically significant downward level change associated with the introduction of the Rede Cegonha programme in 2011 (β = −0·060, p = 0·002), indicating an immediate reduction in the log-transformed MMR. However, the post-Rede Cegonha slope change was positive and significant (β = 0·039, p < 0·001), indicating that the rate of decline slowed or reversed after the programme's implementation.
 
-The COVID-19 effect was substantial: the level change coefficient was 0·606 (p < 0·001), corresponding to an approximate 83% increase in the MMR during the pandemic years. The post-COVID slope change was not statistically significant (β = 0·108, p = 0·137), suggesting that the post-pandemic recovery trajectory was not yet clearly established with only two years of post-peak data (table 6, figure 8).
+The COVID-19 effect was substantial: the level change coefficient was 0·606 (p < 0·001), corresponding to an approximate 83% increase in the MMR during the pandemic years. The post-COVID slope change was not statistically significant (β = 0·108, p = 0·137), suggesting that the post-pandemic recovery trajectory was not yet clearly established with only two years of post-peak data (table 5, figure 8).
 
-**Table 6. Interrupted time-series model — effect of Rede Cegonha (2011) and COVID-19 (2020–2021) on log(MMR)**
+**Table 5. Interrupted time-series model — effect of Rede Cegonha (2011) and COVID-19 (2020–2021) on log(MMR)**
 
 | Parameter | β | SE (Newey-West) | t | p-value |
 |-----------|------|-----------------|--------|---------|
@@ -275,15 +269,7 @@ The COVID-19 effect was substantial: the level change coefficient was 0·606 (p 
 
 ### Crude and adjusted models
 
-**Table 7. Association between covariates and log(MMR) — crude and adjusted regression models, Brazil, 2000–2023**
-
-| Variable | β crude (95% CI) | p (crude) | β adjusted (95% CI) | p (adjusted) |
-|----------|-------------------|-----------|----------------------|--------------|
-| Time trend | −0·0299 (−0·046; −0·014) | <0·001 | −0·0320 (−0·051; −0·013) | 0·002 |
-| Rede Cegonha | −0·0692 (−0·209; 0·071) | 0·317 | −0·0505 (−0·199; 0·098) | 0·482 |
-| COVID-19 intensity | 0·2805 (0·178; 0·383) | <0·001 | 0·3694 (0·285; 0·453) | <0·001 |
-
-*Adjusted model R² = 0·854. Dependent variable: log(MMR).*
+Table 5 also presents the results of crude and adjusted regression models. In the adjusted model (R² = 0·854), the temporal trend remained significantly negative (β = −0·032, p = 0·002), and COVID-19 intensity was the strongest predictor of elevated MMR (β = 0·369, p < 0·001). The Rede Cegonha indicator was not statistically significant in the adjusted model (β = −0·051, p = 0·482), likely due to confounding with the temporal trend.
 
 ### Exploratory forecasts
 
@@ -293,15 +279,15 @@ The ARIMA model projected MMR values of approximately 64 (95% PI 43–85) for 20
 
 ### Profile of maternal deaths and covariates
 
-Table 8 presents the detailed profile of maternal deaths by period, including marital status, place of death, type of obstetric death, medical assistance, autopsy, and death investigation status. Most deaths occurred in hospitals (approximately 85%), and medical assistance was reported in approximately 75% of cases. Autopsy was performed in only 20% of cases. Death investigation increased substantially over the study period.
+Table 3 presents the detailed profile of maternal deaths by period, including marital status, place of death, type of obstetric death, medical assistance, autopsy, and death investigation status. Most deaths occurred in hospitals (approximately 85%), and medical assistance was reported in approximately 75% of cases. Autopsy was performed in only 20% of cases. Death investigation increased substantially over the study period.
 
-Respiratory diseases emerged as a critical factor during 2020–2021 (table 9, figure 11). Before the pandemic, pneumonia (ICD-10 J18.9, J15.9) accounted for a small proportion of maternal deaths. During the pandemic, COVID-19 (U07.1, B34.2) and severe acute respiratory syndrome became major contributors, appearing in approximately 35% of maternal death certificates in 2020–2021.
+Respiratory diseases emerged as a critical factor during 2020–2021 (table 3, figure 11). Before the pandemic, pneumonia (ICD-10 J18.9, J15.9) accounted for 2·7–3·7% of maternal deaths. During the pandemic, COVID-19 (U07.1, B34.2) and severe acute respiratory syndrome became major contributors, appearing in approximately 33% of maternal death certificates in 2020–2021, before declining to 6·5% in 2022–2023.
 
 ![Figure 11. Respiratory diseases in maternal deaths by year, Brazil, 2000–2023](resultados/figuras_publicacao/figure11.png)
 
 ### Years of Potential Life Lost (YPLL)
 
-The analysis of YPLL, calculated using a life expectancy limit of 80·77 years for Brazilian women, revealed substantial premature mortality (table 10, figure 10). The mean YPLL per maternal death was approximately 50·6 years, reflecting the young age at which these deaths occur (mean age ~30 years). Total YPLL surged from approximately 82 000 in 2019 to 144 000 in 2021, a 76% increase driven by the COVID-19 pandemic. Hypertensive disorders and haemorrhage accounted for the largest share of YPLL (figure 12).
+The analysis of YPLL, calculated using a life expectancy limit of 80·77 years for Brazilian women, revealed substantial premature mortality (table 6, figure 10). The mean YPLL per maternal death was approximately 50·6 years, reflecting the young age at which these deaths occur (mean age ~30 years). Total YPLL surged from approximately 82 000 in 2019 to 144 000 in 2021, a 76% increase driven by the COVID-19 pandemic. Hypertensive disorders and haemorrhage accounted for the largest share of YPLL (figure 12).
 
 ![Figure 10. Total Years of Potential Life Lost (YPLL) from maternal deaths, Brazil, 2000–2023](resultados/figuras_publicacao/figure10.png)
 
