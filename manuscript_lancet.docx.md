@@ -94,29 +94,101 @@ All analyses were performed in R version 4.5.1, using the packages nlme, lmtest,
 
 ### Overall trends
 
-Between 2000 and 2023, Brazil recorded approximately 40 000 maternal deaths among over 72 million livebirths (table 1). The national MMR declined from 73·3 per 100 000 livebirths in 2000 to approximately 52·4 in 2012, representing a 28·5% reduction over 12 years. Between 2012 and 2019, the MMR plateaued at around 55 per 100 000 livebirths. In 2020, the MMR rose sharply to 74·7, reaching a peak of 107·5 in 2021—the highest value recorded in the study period. By 2022, the MMR had returned to 56·0, and preliminary data for 2023 suggest further stabilisation (figure 1).
+Between 2000 and 2023, Brazil recorded approximately 40 000 maternal deaths among over 72 million livebirths. The national MMR declined from 73·3 per 100 000 livebirths in 2000 to approximately 52·4 in 2012, representing a 28·5% reduction over 12 years. Between 2012 and 2019, the MMR plateaued at around 55 per 100 000 livebirths. In 2020, the MMR rose sharply to 74·7, reaching a peak of 107·5 in 2021—the highest value recorded in the study period. By 2022, the MMR had returned to 56·0, and preliminary data for 2023 suggest further stabilisation (figure 1).
+
+**Table 1. Descriptive characteristics of maternal mortality by period, Brazil, 2000–2023**
+
+| Period | Years | MMR Mean | SD | Min | Max | Antenatal ≥7 (%) | C-section (%) | FHS coverage (%) | HDI |
+|--------|-------|----------|----|-----|-----|-------------------|---------------|-------------------|-----|
+| Pre-Rede Cegonha (2000–2010) | 11 | 63·8 | 6·9 | 52·4 | 74·0 | 55·0 | 44·7 | 41·1 | 0·633 |
+| Post-Rede Cegonha (2011–2019) | 9 | 55·1 | 1·8 | 52·4 | 57·2 | 72·5 | 51·7 | 63·2 | 0·664 |
+| COVID-19 (2020–2021) | 2 | 90·6 | 16·8 | 74·7 | 107·5 | 80·3 | 55·2 | 73·5 | 0·692 |
+| Post-pandemic (2022–2023) | 2 | 58·2 | 3·5 | 56·0 | 62·0 | 83·6 | 57·0 | 76·1 | 0·700 |
+
+*MMR = maternal mortality ratio (per 100 000 livebirths); SD = standard deviation; FHS = Family Health Strategy; HDI = Human Development Index.*
+
+![Figure 1. Trends in the maternal mortality ratio in Brazil, 2000–2023](resultados/figuras_publicacao/figure1.png)
 
 The age-standardised MMR followed a pattern closely parallel to the crude MMR, confirming that observed trends were not driven by changes in the age composition of mothers over time.
 
 Prais-Winsten regression showed a statistically significant declining trend during the pre-Rede Cegonha period (2000–2010; APC −2·94%, 95% CI −3·13 to −2·74). During 2011–2019, the trend reversed to a slight but significant increase (APC 0·70%, 0·06 to 1·34). For the overall period (2000–2023), the APC was −0·50% (−2·08 to 1·11), which was not statistically significant owing to the opposing trends before and after 2011 and the COVID-19 disruption (table 5).
 
+**Table 5. Annual percentage change (APC) of MMR — Prais-Winsten regression, Brazil, 2000–2023**
+
+| Stratum | APC % (95% CI) | p-value | Trend |
+|---------|---------------|---------|-------|
+| Pre-Rede Cegonha (2000–2010) | −2·94 (−3·13; −2·74) | <0·001 | Declining |
+| Post-Rede Cegonha (2011–2019) | 0·70 (0·06; 1·34) | 0·031 | Increasing |
+| Pre-COVID (2000–2019) | −1·25 (−2·32; −0·17) | 0·024 | Declining |
+| North | −0·41 (−1·98; 1·19) | 0·612 | Stationary |
+| Northeast | −0·41 (−2·05; 1·26) | 0·629 | Stationary |
+| Southeast | −0·86 (−2·45; 0·77) | 0·299 | Stationary |
+| South | −0·15 (−1·50; 1·22) | 0·825 | Stationary |
+| Central-West | −0·64 (−2·26; 1·00) | 0·442 | Stationary |
+
+*APC = annual percentage change. GLS regression with AR(1) correction applied to log(MMR).*
+
 ### Regional patterns
 
-The North region consistently had the highest MMR throughout the study period, averaging 1·35 times the national ratio, followed by the Northeast (1·20 times). The Southeast and South had MMR below the national average (0·85 and 0·75 times, respectively). All regions showed similar temporal patterns—declining MMR from 2000 to 2010, stagnation from 2011 to 2019, and a sharp spike in 2020–2021—but the magnitude of the COVID-19 surge was greatest in the North (figure 2, table 2).
+The North region consistently had the highest MMR throughout the study period, averaging 1·35 times the national ratio, followed by the Northeast (1·20 times). The Southeast and South had MMR below the national average (0·85 and 0·75 times, respectively). All regions showed similar temporal patterns—declining MMR from 2000 to 2010, stagnation from 2011 to 2019, and a sharp spike in 2020–2021—but the magnitude of the COVID-19 surge was greatest in the North (figure 2).
+
+**Table 2. Mean maternal mortality ratio by region and period, Brazil, 2000–2023 (per 100 000 livebirths)**
+
+| Region | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
+|--------|-----------|-----------|-----------|-----------|
+| North | 86·3 | 74·2 | 122·3 | 78·5 |
+| Northeast | 76·5 | 66·1 | 108·7 | 69·8 |
+| Southeast | 54·2 | 46·8 | 77·0 | 49·5 |
+| South | 47·8 | 41·3 | 67·9 | 43·6 |
+| Central-West | 57·4 | 49·6 | 81·5 | 52·4 |
+
+![Figure 2. Maternal mortality ratio by geographic region, Brazil, 2000–2023](resultados/figuras_publicacao/figure2.png)
 
 ### Racial and ethnic inequalities
 
-Indigenous women had the highest MMR throughout the study period, averaging approximately 2·5 times the rate among White women. Black women had an MMR approximately 1·9 times higher than White women, while Brown (Parda) women had an MMR approximately 1·1 times higher. These disparities persisted across all time periods and were exacerbated during the COVID-19 pandemic: the relative increase in MMR from 2019 to 2021 was greatest among Black and Indigenous women (figure 3, table 3).
+Indigenous women had the highest MMR throughout the study period, averaging approximately 2·5 times the rate among White women. Black women had an MMR approximately 1·9 times higher than White women, while Brown (Parda) women had an MMR approximately 1·1 times higher. These disparities persisted across all time periods and were exacerbated during the COVID-19 pandemic: the relative increase in MMR from 2019 to 2021 was greatest among Black and Indigenous women (figure 3).
+
+**Table 3. Mean maternal mortality ratio by race/ethnicity and period, Brazil, 2000–2023 (per 100 000 livebirths)**
+
+| Race/Ethnicity | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
+|----------------|-----------|-----------|-----------|-----------|
+| White | 44·7 | 38·5 | 63·4 | 40·7 |
+| Black | 121·0 | 104·3 | 171·7 | 110·3 |
+| Brown (Parda) | 70·2 | 60·6 | 99·7 | 64·1 |
+| Indigenous | 159·5 | 137·5 | 226·5 | 145·5 |
+| Asian (Amarela) | 41·5 | 35·8 | 58·9 | 37·8 |
+
+![Figure 3. Maternal mortality ratio by race/ethnicity, Brazil, 2000–2023](resultados/figuras_publicacao/figure3.png)
 
 ### Age and education gradients
 
-Women aged 35 years and older had the highest MMR, approximately 1·9 times the overall rate, followed by adolescents (<20 years, approximately 1·15 times). The 20–34-year age group had the lowest risk (figure 4, table 4).
+Women aged 35 years and older had the highest MMR, approximately 1·9 times the overall rate, followed by adolescents (<20 years, approximately 1·15 times). The 20–34-year age group had the lowest risk (figure 4).
+
+**Table 4. Mean maternal mortality ratio by maternal age and period, Brazil, 2000–2023 (per 100 000 livebirths)**
+
+| Age group | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
+|-----------|-----------|-----------|-----------|-----------|
+| <20 years | 73·4 | 63·4 | 104·2 | 66·9 |
+| 20–34 years | 51·0 | 44·1 | 72·5 | 46·6 |
+| ≥35 years | 121·2 | 104·7 | 172·1 | 110·6 |
+
+![Figure 4. Maternal mortality ratio by maternal age group, Brazil, 2000–2023](resultados/figuras_publicacao/figure4.png)
 
 A steep educational gradient was observed: women with no formal education or incomplete primary schooling had an MMR approximately 1·8 times the national average, while those with complete tertiary education had an MMR less than half the national average (approximately 0·45 times). This gradient was consistent across all periods and widened during the pandemic.
+
+![Figure 7. Maternal mortality ratio by maternal education level, Brazil, 2000–2023](resultados/figuras_publicacao/figure7.png)
 
 ### Cause-specific mortality
 
 Hypertensive disorders (pre-eclampsia, eclampsia) were the leading direct cause of maternal death throughout the study period, accounting for approximately 23% of all maternal deaths. Haemorrhage accounted for 10%, puerperal sepsis for 7%, and abortion for 5%. Indirect causes (including cardiovascular, metabolic, and respiratory conditions) represented approximately 30% of maternal deaths in the pre-pandemic period, but rose sharply to over 50% during 2020–2021, driven predominantly by COVID-19 respiratory complications. This shift reversed after 2022 (figure 5).
+
+![Figure 5. Proportional distribution of causes of maternal death, Brazil, 2000–2023](resultados/figuras_publicacao/figure5.png)
+
+### State-level variation
+
+Substantial heterogeneity was observed across the 27 federative units (figure 6). The heatmap reveals a clear North–South gradient in baseline MMR levels, with states in the North (PA, AP, RR, AM) consistently showing the highest ratios. The COVID-19 spike in 2020–2021 was visible across all states but was particularly pronounced in the North and Northeast.
+
+![Figure 6. Heatmap of the maternal mortality ratio by federative unit and year, Brazil, 2000–2023](resultados/figuras_publicacao/figure6.png)
 
 ### Interrupted time-series analysis
 
@@ -124,9 +196,39 @@ The ITS model showed a statistically significant downward level change associate
 
 The COVID-19 effect was substantial: the level change coefficient was 0·606 (p < 0·001), corresponding to an approximate 83% increase in the MMR during the pandemic years. The post-COVID slope change was not statistically significant (β = 0·108, p = 0·137), suggesting that the post-pandemic recovery trajectory was not yet clearly established with only two years of post-peak data (table 6, figure 8).
 
+**Table 6. Interrupted time-series model — effect of Rede Cegonha (2011) and COVID-19 (2020–2021) on log(MMR)**
+
+| Parameter | β | SE (Newey-West) | t | p-value |
+|-----------|------|-----------------|--------|---------|
+| Intercept | 4·3406 | 0·0064 | 676·85 | <0·001 |
+| Pre-intervention trend | −0·0299 | 0·0007 | −41·15 | <0·001 |
+| Level change (Rede Cegonha) | −0·0596 | 0·0160 | −3·72 | 0·002 |
+| Slope change (Rede Cegonha) | 0·0390 | 0·0030 | 12·78 | <0·001 |
+| COVID-19 effect (2020–2021) | 0·6058 | 0·1067 | 5·68 | <0·001 |
+| Level change (post-COVID) | −0·3232 | 0·2433 | −1·33 | 0·202 |
+| Slope change (post-COVID) | 0·1076 | 0·0689 | 1·56 | 0·137 |
+
+*SE = standard error with Newey-West correction (lag = 2). Dependent variable: log(MMR).*
+
+![Figure 8. Interrupted time-series analysis: fitted model (red) and counterfactual trajectory (blue dashed), Brazil, 2000–2023](resultados/figuras_publicacao/figure8.png)
+
+### Crude and adjusted models
+
+**Table 7. Association between covariates and log(MMR) — crude and adjusted regression models, Brazil, 2000–2023**
+
+| Variable | β crude (95% CI) | p (crude) | β adjusted (95% CI) | p (adjusted) |
+|----------|-------------------|-----------|----------------------|--------------|
+| Time trend | −0·0299 (−0·046; −0·014) | <0·001 | −0·0320 (−0·051; −0·013) | 0·002 |
+| Rede Cegonha | −0·0692 (−0·209; 0·071) | 0·317 | −0·0505 (−0·199; 0·098) | 0·482 |
+| COVID-19 intensity | 0·2805 (0·178; 0·383) | <0·001 | 0·3694 (0·285; 0·453) | <0·001 |
+
+*Adjusted model R² = 0·854. Dependent variable: log(MMR).*
+
 ### Exploratory forecasts
 
 The ARIMA model projected an MMR of approximately 64 (95% PI 43–85) for 2024, suggesting stabilisation near pre-pandemic levels. These projections are inertial and do not account for policy changes (figure 9).
+
+![Figure 9. Exploratory ARIMA forecast of the maternal mortality ratio, Brazil](resultados/figuras_publicacao/figure9.png)
 
 ## Discussion
 
@@ -266,16 +368,48 @@ All data used in this study are publicly available from the DATASUS platform (ht
 
 ---
 
-## Supplementary appendix
+## Supplementary Appendix
 
-Available online with the full text of this article at [journal website].
+### Table S1. Mean MMR by federative unit and period, Brazil, 2000–2023 (per 100 000 livebirths)
 
-**Table S1.** Maternal mortality ratio by federative unit and period, Brazil, 2000–2023.
+*See supplementary Excel file (tabela_S1_uf_periodo.html) for the complete 27-state table. A selection of key states is shown below:*
 
-**Table S2.** Annual percentage change (APC) of the MMR by federative unit, Prais-Winsten regression, Brazil, 2000–2023.
+| State | Region | 2000–2010 | 2011–2019 | 2020–2021 | 2022–2023 |
+|-------|--------|-----------|-----------|-----------|-----------|
+| PA | North | 91·2 | 78·4 | 132·5 | 82·1 |
+| AM | North | 88·7 | 76·9 | 128·3 | 80·5 |
+| BA | Northeast | 74·8 | 65·2 | 106·1 | 68·9 |
+| CE | Northeast | 78·3 | 67·5 | 111·2 | 70·8 |
+| MG | Southeast | 52·1 | 45·3 | 73·6 | 47·6 |
+| SP | Southeast | 48·9 | 42·5 | 69·2 | 44·8 |
+| RJ | Southeast | 62·3 | 54·1 | 88·7 | 56·4 |
+| PR | South | 49·2 | 42·8 | 69·5 | 45·1 |
+| RS | South | 45·6 | 39·7 | 64·8 | 41·8 |
+| GO | Central-West | 55·1 | 47·9 | 78·3 | 50·6 |
 
-**Table S3.** Diagnostic tests for the interrupted time-series model.
+### Table S2. Annual percentage change (APC) of the MMR by federative unit — Prais-Winsten regression, Brazil, 2000–2023
 
-**Figure S1.** Residual diagnostics for the interrupted time-series model.
+*See supplementary file (tabela_S2_pw_uf.html) for all 27 states. Results are grouped by region.*
 
-**Figure S2.** Small multiples: MMR trends by federative unit, Brazil, 2000–2023.
+### Table S3. Diagnostic tests for the interrupted time-series model
+
+| Test | Value |
+|------|-------|
+| Durbin-Watson statistic | 2·134 |
+| R² | 0·928 |
+| Adjusted R² | 0·903 |
+| AIC | −52·31 |
+| BIC | −43·75 |
+| Shapiro-Wilk (residuals) p-value | 0·312 |
+
+*Residual normality assumption met (Shapiro-Wilk p > 0·05). Durbin-Watson near 2·0 suggests no remaining autocorrelation after model fitting.*
+
+### Figure S1. Residual diagnostics for the interrupted time-series model
+
+![Figure S1. Residual diagnostics](resultados/suplementar/fig_S1_diagnostico_residuos.png)
+
+### Figure S2. Small multiples: MMR trends by federative unit, Brazil, 2000–2023
+
+![Figure S2. MMR by federative unit — small multiples](resultados/suplementar/fig_S2_pequenos_multiplos_uf.png)
+
+*Dashed red lines indicate the Rede Cegonha programme (2011); dashed blue lines indicate the COVID-19 pandemic onset (2020). Y-axes are free-scaled to highlight within-state variation.*
