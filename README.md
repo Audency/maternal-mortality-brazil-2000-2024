@@ -1,10 +1,4 @@
 <p align="center">
-  <img src="resultados/figuras_publicacao/figure1.png" width="700" alt="Maternal Mortality Trends in Brazil, 2000–2023">
-</p>
-
-<h1 align="center">Maternal Mortality in Brazil, 2000–2024</h1>
-
-<p align="center">
   <strong>Trends, inequalities, and the impact of Rede Cegonha and COVID-19</strong><br>
   <em>A national interrupted time-series analysis</em>
 </p>
@@ -16,6 +10,12 @@
   <a href="https://www.r-project.org/"><img src="https://img.shields.io/badge/Made%20with-R%204.5-276DC3?style=flat-square&logo=r" alt="R"></a>
   <a href="https://github.com/Audency/maternal-mortality-brazil-2000-2024/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License"></a>
 </p>
+
+<p align="center">
+  <img src="resultados/figuras_publicacao/figure1.png" width="700" alt="Maternal Mortality Trends in Brazil, 2000–2023">
+</p>
+
+<h1 align="center">Maternal Mortality in Brazil, 2000–2024</h1>
 
 ---
 
@@ -194,8 +194,7 @@ Rscript analise_mortalidade_materna.R   # Uses realistic simulated data
 - **Supplementary material** — state-level tables, diagnostic plots, raw data
 
 ## Citation
-
-> [Authors]. Trends, inequalities, and the impact of Rede Cegonha and COVID-19 on maternal mortality in Brazil, 2000–2024: a national interrupted time-series analysis. *[Journal]*. [Year].
+Audencio Victor. Trends, inequalities, and the impact of Rede Cegonha and COVID-19 on maternal mortality in Brazil, 2000–2024: a national interrupted time-series analysis. *[Journal]*. [Year].
 
 ## License
 
