@@ -237,6 +237,20 @@ Substantial heterogeneity was observed across the 27 federative units (figure 6)
 
 ![Figure 6. Heatmap of the maternal mortality ratio by federative unit and year, Brazil, 2000–2023](resultados/figuras_publicacao/figure6.png)
 
+### Spatial analysis and clustering
+
+The spatial distribution of the MMR across the 27 federative units revealed a clear North–South gradient (figure 13). The North region, particularly the states of Roraima (RR), Amapá (AP), and Pará (PA), consistently showed the highest MMR, while the South (Santa Catarina, Rio Grande do Sul, Paraná) had the lowest. The COVID-19 pandemic amplified this gradient, with the North experiencing the most pronounced increases (panel B vs panel A). The percentage change in MMR between the post-Rede Cegonha period (2011–2019) and the COVID-19 peak (2020–2021) ranged from approximately 30% in the South to over 90% in the North (panel D).
+
+![Figure 13. Choropleth maps of the MMR by federative unit. (A) Pre-Rede Cegonha (2000–2010); (B) COVID-19 (2020–2021); (C) Overall (2000–2023); (D) Percentage change from 2011–2019 to 2020–2021](resultados/figuras_publicacao/figure13_maps.png)
+
+Global Moran's I confirmed significant positive spatial autocorrelation in the MMR, both for the overall period (I = 0·815, p < 0·001) and during the COVID-19 peak (I = 0·792, p < 0·001), indicating that states with high (or low) MMR tend to cluster geographically. Local Indicators of Spatial Association (LISA) analysis identified statistically significant hotspots (High-High clusters) in the North region—states where both the local MMR and the MMR of neighbouring states were significantly above the national average—and coldspots (Low-Low clusters) in the South and Southeast (figure 14).
+
+![Figure 14. LISA cluster maps. (A) Overall period (2000–2023); (B) COVID-19 period (2020–2021). Red = High-High hotspot; Blue = Low-Low coldspot; Grey = not significant (p > 0·05)](resultados/figuras_publicacao/figure14_lisa.png)
+
+Figure 15 shows the temporal evolution of the spatial pattern across four periods, illustrating how the North–South gradient persisted but was amplified during the pandemic.
+
+![Figure 15. Temporal evolution of the MMR by federative unit and period, Brazil](resultados/figuras_publicacao/figure15_maps_temporal.png)
+
 ### Interrupted time-series analysis
 
 The ITS model showed a statistically significant downward level change associated with the introduction of the Rede Cegonha programme in 2011 (β = −0·060, p = 0·002), indicating an immediate reduction in the log-transformed MMR. However, the post-Rede Cegonha slope change was positive and significant (β = 0·039, p < 0·001), indicating that the rate of decline slowed or reversed after the programme's implementation.
