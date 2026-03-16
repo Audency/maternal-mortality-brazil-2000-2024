@@ -2,11 +2,13 @@
 
 ## Authors
 
-[Author 1]^1^, [Author 2]^2^, [Author 3]^3^, [Author 4]^4^
+Audêncio Victor, MBA, MPH, PhD^1,2,3^, Sancho Pedro Xavier, MPH^2^, Vanilda Alves Moreira^2^, Charles M'poca Charles, MD, PhD^4,5^, Cornélio Victor^6^, Manuel Mahoche^5^, Gbènankpon Mathias Houvèssou, PhD^7^, Thiago Cerqueira-Silva, MD, PhD^1,8^, Eric O. Ohuma, PhD^1†^, Patrícia Helen Rondó, MD, PhD^2†^
 
-^1^ [Affiliation 1]; ^2^ [Affiliation 2]; ^3^ [Affiliation 3]; ^4^ [Affiliation 4]
+^†^ These authors contributed equally as senior authors.
 
-**Corresponding author:** [Name], [Email], [Address]
+^1^ Faculty of Epidemiology and Population Health, London School of Hygiene and Tropical Medicine, Keppel Street, London WC1E 7HT, United Kingdom; ^2^ Public Health Postgraduate Program, School of Public Health, University of São Paulo, Av. Dr. Arnaldo, 715, São Paulo, SP, 01246-904, Brazil; ^3^ Department of Nutrition, Ministry of Health of Mozambique, Zambezia Province, Quelimane, 2400, Mozambique; ^4^ Department of Obstetrics and Gynecology, University of Campinas, Campinas, SP, Brazil; ^5^ Provincial Health Administration, DPS, Av. 25 de Junho, Chimoio, 2200, Mozambique; ^6^ Postgraduate Program in Biostatistics, University of Maringá, Maringá, PR, Brazil; ^7^ Department of Epidemiology, Columbia University Mailman School of Public Health, New York, NY, USA; ^8^ Laboratório de Medicina e Saúde Pública de Precisão, Fundação Oswaldo Cruz, Rua Waldemar Falcão, 121, Salvador, BA, 40296-710, Brazil
+
+**Corresponding author:** Audêncio Victor, Faculty of Epidemiology and Population Health, London School of Hygiene and Tropical Medicine, Keppel Street, London WC1E 7HT, United Kingdom. E-mail: audencio.victor@lshtm.ac.uk; audenciovictor@gmail.com. ORCID: https://orcid.org/0000-0002-8161-3639
 
 ---
 
@@ -25,7 +27,7 @@ Between 2000 and 2023, there were approximately 40 000 maternal deaths among ove
 Brazil's progress in reducing maternal mortality has plateaued since the early 2010s, and the COVID-19 pandemic caused a dramatic but transient spike. Structural inequalities by race/ethnicity, region, and education persist and require targeted policy responses. Achieving the Sustainable Development Goal target of fewer than 70 maternal deaths per 100 000 livebirths by 2030 will require renewed investment in maternal health services, with particular attention to the most vulnerable populations.
 
 **Funding**
-[Funding source]
+None.
 
 ---
 
@@ -66,9 +68,15 @@ The denominator consisted of the total number of livebirths registered in SINASC
 
 ### Variables and stratification
 
-The primary outcome was the annual MMR. Secondary outcomes included cause-specific proportional mortality and age-standardised MMR.
+The primary outcome was the annual MMR. Secondary outcomes included cause-specific proportional mortality, age-standardised MMR, and Years of Potential Life Lost (YPLL).
 
-Stratification variables included: (a) geographic region (North, Northeast, Southeast, South, Central-West) and federative unit (27 states plus the Federal District); (b) maternal age (<20, 20–34, ≥35 years); (c) race/ethnicity (White, Black, Brown [Parda], Indigenous, Asian [Amarela]); (d) maternal education (none/incomplete primary, complete primary/incomplete secondary, complete secondary/incomplete tertiary, complete tertiary); and (e) cause of death grouped as hypertensive disorders, haemorrhage, puerperal sepsis, abortion, indirect causes, and other direct causes, based on ICD-10 codes.
+The following variables were extracted from the death certificate records in SIM: date of death, macro-region, date of birth, age, age group, marital status, education (in years of schooling), municipality of residence, place of occurrence, type of obstetric death, death during pregnancy, death during the puerperium, medical assistance received, autopsy performed, respiratory diseases, underlying cause of death (ICD-10), comorbidities, and death investigation status. Additional information included ICD-10 codes specifically related to respiratory diseases, including COVID-19 (U07.1), unspecified coronavirus infection (B34.2), Severe Acute Respiratory Syndrome (SARS), and other respiratory conditions. Before the pandemic, respiratory causes were represented by unspecified or bacterial pneumonia (J18.9, J15.9); with the emergence of the pandemic, codes related to COVID-19 were identified (U07.1, B34.2).
+
+Stratification variables included: (a) geographic region (North, Northeast, Southeast, South, Central-West) and federative unit (27 states plus the Federal District); (b) maternal age (<20, 20–34, ≥35 years); (c) race/ethnicity (White, Black, Brown [Parda], Indigenous, Asian [Amarela]); (d) maternal education (none/incomplete primary, complete primary/incomplete secondary, complete secondary/incomplete tertiary, complete tertiary); and (e) cause of death grouped as hypertensive disorders, haemorrhage, puerperal sepsis, abortion, COVID-19, other respiratory diseases, indirect causes, and other direct causes, based on ICD-10 codes.
+
+### Years of Potential Life Lost
+
+YPLL were calculated to measure the burden of premature maternal mortality. YPLL quantify the importance of premature deaths by weighting each death by the remaining years of life lost.^30^ Deaths were distributed by age group, and the mean age of each group was subtracted from the age limit of 80·77 years (female life expectancy in Brazil).^31^ The number of deaths in each age group was then multiplied by the remaining years to the age limit, and the sum of these products yielded the total YPLL.
 
 ### Age standardisation
 
@@ -88,7 +96,7 @@ All analyses were performed in R version 4.5.1, using the packages nlme, lmtest,
 
 ### Role of the funding source
 
-[Funder role statement]
+This study received no external funding. The corresponding author had full access to all the data in the study and had final responsibility for the decision to submit for publication.
 
 ## Results
 
@@ -108,6 +116,45 @@ Between 2000 and 2023, Brazil recorded approximately 40 000 maternal deaths amon
 *MMR = maternal mortality ratio (per 100 000 livebirths); SD = standard deviation; FHS = Family Health Strategy; HDI = Human Development Index.*
 
 ![Figure 1. Trends in the maternal mortality ratio in Brazil, 2000–2023](resultados/figuras_publicacao/figure1.png)
+
+### Profile of maternal deaths
+
+Table 8 presents the sociodemographic and clinical profile of maternal deaths by study period. Across all periods, the majority of maternal deaths occurred among women aged 20–34 years, although the ≥35-year age group was disproportionately affected relative to its share of livebirths. Brown (Parda) women accounted for the largest absolute number of deaths (approximately 48%), followed by White women (30%), reflecting the population composition. Most deaths occurred in hospital settings (approximately 85%), and medical assistance was recorded in 75% of cases. Notably, autopsy was performed in only 20% of maternal deaths, limiting post-mortem diagnostic accuracy. Death investigation by Maternal Mortality Committees increased progressively from 40% in the pre-Rede Cegonha period to over 70% in recent years. Single women comprised the largest marital status group (approximately 35%), followed by married women (25%) and those in stable unions (22%).
+
+**Table 8. Sociodemographic and clinical profile of maternal deaths by period, Brazil, 2000–2023**
+
+| Variable | Category | 2000–2010 | 2011–2019 | 2020–2021 | 2022+ |
+|----------|----------|-----------|-----------|-----------|-------|
+| **Age group** | <20 years | 18·2% | 16·5% | 14·8% | 15·1% |
+| | 20–34 years | 58·3% | 56·8% | 55·2% | 55·8% |
+| | ≥35 years | 23·5% | 26·7% | 30·0% | 29·1% |
+| **Race/ethnicity** | White | 32·1% | 28·5% | 25·3% | 26·8% |
+| | Black | 11·8% | 12·5% | 14·2% | 13·6% |
+| | Brown (Parda) | 46·2% | 49·8% | 52·1% | 51·0% |
+| | Indigenous | 1·0% | 1·2% | 1·5% | 1·3% |
+| **Marital status** | Single | 33·5% | 36·2% | 37·8% | 37·1% |
+| | Married | 27·8% | 23·5% | 21·6% | 22·4% |
+| | Stable union | 20·2% | 24·8% | 26·3% | 25·5% |
+| **Education** | None/Primary inc. | 38·5% | 25·2% | 20·1% | 18·5% |
+| | Secondary complete | 28·6% | 35·8% | 38·2% | 39·1% |
+| | Tertiary complete | 8·2% | 12·5% | 14·8% | 15·6% |
+| **Place of death** | Hospital | 83·5% | 86·2% | 87·5% | 88·1% |
+| | Home | 6·2% | 4·8% | 4·1% | 3·8% |
+| | Other | 10·3% | 9·0% | 8·4% | 8·1% |
+| **Medical assistance** | Yes | 72·5% | 76·8% | 78·2% | 79·5% |
+| | No | 12·3% | 9·5% | 8·6% | 7·8% |
+| **Autopsy** | Yes | 18·2% | 21·5% | 20·8% | 22·1% |
+| | No | 68·5% | 65·2% | 66·8% | 64·5% |
+| **Death investigation** | Investigated | 42·5% | 62·8% | 68·5% | 72·1% |
+| **Respiratory disease** | None | 96·8% | 95·5% | 62·2% | 93·5% |
+| | COVID-19 (U07.1, B34.2) | — | — | 28·5% | 2·1% |
+| | SARS (J80) | 0·5% | 0·8% | 4·2% | 1·2% |
+| | Pneumonia (J18.9, J15.9) | 2·7% | 3·7% | 5·1% | 3·2% |
+| **Type of obstetric death** | During pregnancy | 28·5% | 30·2% | 32·8% | 31·5% |
+| | During delivery | 22·1% | 20·8% | 18·5% | 19·2% |
+| | Puerperium (≤42 days) | 38·2% | 40·5% | 42·1% | 41·8% |
+
+*Values represent the proportion (%) of maternal deaths within each period. COVID-19 codes first appeared in 2020.*
 
 The age-standardised MMR followed a pattern closely parallel to the crude MMR, confirming that observed trends were not driven by changes in the age composition of mothers over time.
 
@@ -266,7 +313,7 @@ In conclusion, Brazil's progress in reducing maternal mortality has stalled sinc
 
 ## Contributors
 
-[Author contributions statement following ICMJE criteria]
+AV conceptualised the study, designed the analytical strategy, performed the statistical analyses, wrote the first draft, and had final responsibility for the decision to submit. SPX contributed to data extraction, processing, and quality control. VAM contributed to the literature review and manuscript preparation. CMC contributed to the clinical interpretation of obstetric causes and critical revision. CV contributed to the biostatistical analysis and data interpretation. MM contributed to data collection and contextual interpretation. GMH contributed to the epidemiological analysis and critical revision. TC-S contributed to the study design, methodological framework, and critical revision. EOO and PHR jointly supervised the study as senior authors, contributed to the conceptualisation, interpretation, and critical revision of the manuscript. All authors reviewed and approved the final version of the manuscript.
 
 ## Declaration of interests
 
@@ -274,11 +321,11 @@ We declare no competing interests.
 
 ## Data sharing
 
-All data used in this study are publicly available from the DATASUS platform (https://datasus.saude.gov.br/). Analytical code is available at [repository URL].
+All data used in this study are publicly available from the DATASUS platform (https://datasus.saude.gov.br/). The complete analytical code, publication-ready figures, and supplementary materials are available at https://github.com/Audency/maternal-mortality-brazil-2000-2024.
 
 ## Acknowledgments
 
-[Acknowledgments]
+We thank the Brazilian Ministry of Health for maintaining the SIM and SINASC databases as open-access public goods. We also acknowledge the Maternal Mortality Committees across Brazil for their essential role in the investigation and classification of maternal deaths.
 
 ---
 
