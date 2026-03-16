@@ -111,39 +111,55 @@ if (dados_reais) {
     )
   )
 
-  # Gerar CAUSABAS realista
+  # Gerar CAUSABAS realista — row by row para respeitar ano
+  gen_causa <- function(ano, n) {
+    r <- runif(n)
+    causa <- character(n)
+    for (i in seq_len(n)) {
+      if (ano[i] %in% 2020:2021 && r[i] < 0.35) {
+        causa[i] <- sample(c("U071","B342","J189"), 1,
+                           prob = c(0.70, 0.15, 0.15))
+      } else if (ano[i] %in% 2022:2023 && r[i] < 0.05) {
+        causa[i] <- sample(c("U071","J189","J80"), 1,
+                           prob = c(0.40, 0.40, 0.20))
+      } else if (r[i] < 0.03) {
+        # Pneumonia pré-pandemia (~3% em todos os anos)
+        causa[i] <- sample(c("J189","J159","J80"), 1,
+                           prob = c(0.50, 0.30, 0.20))
+      } else if (r[i] < 0.23) {
+        causa[i] <- sample(c("O10","O11","O13","O14","O15","O16"), 1)
+      } else if (r[i] < 0.33) {
+        causa[i] <- sample(c("O44","O45","O46","O67","O72"), 1)
+      } else if (r[i] < 0.40) {
+        causa[i] <- sample(c("O85","O86"), 1)
+      } else if (r[i] < 0.45) {
+        causa[i] <- sample(c("O00","O01","O02","O03","O04","O05",
+                              "O06","O07","O08"), 1)
+      } else if (r[i] < 0.75) {
+        causa[i] <- sample(c("O98","O99"), 1)
+      } else {
+        causa[i] <- sample(c("O20","O21","O22","O23","O24","O26",
+                              "O30","O40","O41","O42","O43",
+                              "O60","O62","O63","O71","O73","O74",
+                              "O75","O88","O90","O91","O95"), 1)
+      }
+    }
+    causa
+  }
+
+  sim$CAUSABAS <- gen_causa(sim$ano_obito, nrow(sim))
+
+  # LINHAA: adicionar doenças respiratórias como causa contribuinte
   sim <- sim %>%
     mutate(
-      CAUSABAS = case_when(
-        # Durante COVID (2020-2021): mais causas indiretas/respiratórias
-        ano_obito %in% 2020:2021 & runif(n()) < 0.35 ~
-          sample(c("U071","B342","J189"), n(), replace = TRUE,
-                 prob = c(0.70, 0.15, 0.15)),
-        runif(n()) < 0.23 ~
-          sample(c("O10","O11","O13","O14","O15","O16"),
-                 n(), replace = TRUE),
-        runif(n()) < 0.33 ~
-          sample(c("O44","O45","O46","O67","O72"),
-                 n(), replace = TRUE),
-        runif(n()) < 0.40 ~ sample(c("O85","O86"), n(),
-                                    replace = TRUE),
-        runif(n()) < 0.45 ~
-          sample(c("O00","O01","O02","O03","O04","O05","O06",
-                    "O07","O08"), n(), replace = TRUE),
-        runif(n()) < 0.75 ~
-          sample(c("O98","O99"), n(), replace = TRUE),
-        TRUE ~ sample(c("O20","O21","O22","O23","O24","O26",
-                         "O30","O40","O41","O42","O43",
-                         "O60","O62","O63","O71","O73","O74",
-                         "O75","O88","O90","O91","O95"),
-                       n(), replace = TRUE)
-      ),
-      # Doenças respiratórias nas linhas de causa
-      LINHAA = ifelse(
-        ano_obito %in% 2020:2021 & runif(n()) < 0.30,
-        sample(c("U071","B342","J189","J159","J80"), n(),
-               replace = TRUE, prob = c(0.50, 0.10, 0.15, 0.10, 0.15)),
-        CAUSABAS
+      LINHAA = case_when(
+        ano_obito %in% 2020:2021 & runif(n()) < 0.30 ~
+          sample(c("U071","B342","J189","J159","J80"), n(),
+                 replace = TRUE,
+                 prob = c(0.50, 0.10, 0.15, 0.10, 0.15)),
+        runif(n()) < 0.03 ~
+          sample(c("J189","J159"), n(), replace = TRUE),
+        TRUE ~ CAUSABAS
       )
     )
 }
@@ -481,28 +497,43 @@ ggsave(file.path(dir_out, "figuras_publicacao", "figure10.pdf"),
 cat("   Figura 10 (APVP) salva.\n")
 
 # --- Figura 11: Doenças respiratórias ao longo do tempo ---
-resp_ano <- sim_det %>%
+# Contar TODAS as doenças respiratórias por ano (incluindo anos com 0)
+resp_all <- sim_det %>%
   filter(doenca_respiratoria != "Não respiratória") %>%
   group_by(ano, doenca_respiratoria) %>%
   summarise(n = n(), .groups = "drop")
 
+# Garantir que todos os anos aparecem (completar com 0)
+all_combos <- expand_grid(
+  ano = sort(unique(sim_det$ano)),
+  doenca_respiratoria = c("COVID-19", "SRAG", "Pneumonia",
+                          "Outra respiratória")
+)
+resp_ano <- all_combos %>%
+  left_join(resp_all, by = c("ano", "doenca_respiratoria")) %>%
+  mutate(n = replace_na(n, 0))
+
 fig11 <- ggplot(resp_ano,
-                aes(x = ano, y = n, fill = doenca_respiratoria)) +
-  geom_col(alpha = 0.85) +
+                aes(x = factor(ano), y = n,
+                    fill = doenca_respiratoria)) +
+  geom_col(alpha = 0.85, width = 0.7) +
   scale_fill_manual(
     values = c("COVID-19" = "#E74C3C", "SRAG" = "#F39C12",
                "Pneumonia" = "#3498DB",
                "Outra respiratória" = "#95A5A6")
   ) +
-  scale_x_continuous(breaks = seq(2000, 2024, 4)) +
+  scale_x_discrete(
+    breaks = as.character(seq(2000, max(sim_det$ano), 2))
+  ) +
   labs(x = "Year", y = "Number of deaths",
        fill = "Respiratory condition") +
-  tema_lancet
+  tema_lancet +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 7))
 
 ggsave(file.path(dir_out, "figuras_publicacao", "figure11.png"),
-       fig11, width = 8, height = 4.5, dpi = 600)
+       fig11, width = 9, height = 4.5, dpi = 600)
 ggsave(file.path(dir_out, "figuras_publicacao", "figure11.pdf"),
-       fig11, width = 8, height = 4.5)
+       fig11, width = 9, height = 4.5)
 cat("   Figura 11 (respiratórias) salva.\n")
 
 # --- Figura 12: APVP por causa (barras) ---
