@@ -1,7 +1,9 @@
 ###############################################################################
-#  DOWNLOAD DE DADOS REAIS DO DATASUS
+#  DOWNLOAD DE DADOS REAIS DO DATASUS (versão otimizada para memória)
 #  SIM (óbitos maternos) + SINASC (nascidos vivos)
 #  Período: 2000-2024
+#
+#  Estratégia: processar e agregar ano a ano, libertando memória
 ###############################################################################
 
 suppressPackageStartupMessages({
@@ -13,306 +15,304 @@ suppressPackageStartupMessages({
 dir_dados <- file.path(getwd(), "dados_datasus")
 dir.create(dir_dados, showWarnings = FALSE, recursive = TRUE)
 
+anos_download <- 2000:2024
+
+cod_uf <- data.frame(
+  cod = c("11", "12", "13", "14", "15", "16", "17",
+          "21", "22", "23", "24", "25", "26", "27", "28", "29",
+          "31", "32", "33", "35",
+          "41", "42", "43",
+          "50", "51", "52", "53"),
+  uf_sigla = c("RO", "AC", "AM", "RR", "PA", "AP", "TO",
+               "MA", "PI", "CE", "RN", "PB", "PE", "AL", "SE", "BA",
+               "MG", "ES", "RJ", "SP",
+               "PR", "SC", "RS",
+               "MS", "MT", "GO", "DF"),
+  regiao = c(rep("Norte", 7), rep("Nordeste", 9),
+             rep("Sudeste", 4), rep("Sul", 3),
+             rep("Centro-Oeste", 4)),
+  stringsAsFactors = FALSE
+)
+
 cat("============================================================\n")
-cat("  DOWNLOAD DE DADOS DO DATASUS\n")
-cat("  SIM (Mortalidade) + SINASC (Nascidos Vivos)\n")
+cat("  DOWNLOAD DATASUS — Versão otimizada\n")
 cat("  Período: 2000-2024\n")
 cat("============================================================\n\n")
 
 # ============================================================================
-# 1. DOWNLOAD DOS ÓBITOS MATERNOS (SIM)
+# 1. SIM — Agregar ano a ano
 # ============================================================================
 
-cat("1. Baixando dados de óbitos (SIM/DATASUS)...\n")
-cat("   Isto pode demorar vários minutos por ano.\n\n")
+cat("1. Baixando e agregando SIM (óbitos maternos)...\n\n")
 
-ufs <- c("AC","AL","AM","AP","BA","CE","DF","ES","GO","MA",
-         "MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN",
-         "RO","RR","RS","SC","SE","SP","TO")
-
-# Baixar SIM ano a ano
-anos_download <- 2000:2024
-
-sim_all <- list()
+# Listas para guardar dados agregados por ano
+obitos_nac <- list()
+obitos_uf <- list()
+obitos_raca <- list()
+obitos_idade <- list()
+obitos_esc <- list()
+obitos_causa <- list()
+sim_micro <- list()  # microdados filtrados (só maternos, ~2000 por ano)
 
 for (ano in anos_download) {
   cat(sprintf("   SIM %d ... ", ano))
   tryCatch({
-    # fetch_datasus baixa microdados do SIM
-    sim_ano <- fetch_datasus(
-      year_start = ano,
-      year_end = ano,
+    raw <- fetch_datasus(
+      year_start = ano, year_end = ano,
       information_system = "SIM-DO"
     )
+    proc <- process_sim(raw)
+    rm(raw); gc(verbose = FALSE)
 
-    # Processar com process_sim
-    sim_proc <- process_sim(sim_ano)
-
-    # Filtrar óbitos maternos (CID-10: O00-O99, A34, incluindo tardios)
-    # Capítulo XV da CID-10: O00-O99
-    sim_materno <- sim_proc %>%
+    # Filtrar óbitos maternos
+    mat <- proc %>%
       filter(grepl("^O", CAUSABAS) | CAUSABAS == "A34") %>%
-      mutate(ano_obito = ano)
+      mutate(
+        ano_obito = ano,
+        uf_cod = substr(CODMUNRES, 1, 2),
+        obito_oficial = grepl("^O", CAUSABAS) &
+          !grepl("^O9[67]", CAUSABAS),
+        causa_grupo = case_when(
+          grepl("^O1[0-6]", CAUSABAS) ~ "Hipertensivas",
+          grepl("^O4[4-6]|^O67|^O72", CAUSABAS) ~ "Hemorragia",
+          grepl("^O85|^O86", CAUSABAS) ~ "Infeccao_puerperal",
+          grepl("^O0[0-8]", CAUSABAS) ~ "Abortamento",
+          grepl("^O98|^O99", CAUSABAS) ~ "Causas_indiretas",
+          TRUE ~ "Outras_diretas"
+        ),
+        raca_cor = case_when(
+          RACACOR == "1" ~ "Branca",
+          RACACOR == "2" ~ "Preta",
+          RACACOR == "3" ~ "Amarela",
+          RACACOR == "4" ~ "Parda",
+          RACACOR == "5" ~ "Indigena",
+          TRUE ~ "Ignorada"
+        ),
+        idade_num = as.numeric(IDADE),
+        faixa_idade = case_when(
+          idade_num < 20 ~ "<20",
+          idade_num <= 34 ~ "20-34",
+          idade_num >= 35 ~ ">=35",
+          TRUE ~ "Ignorada"
+        ),
+        escolaridade_grupo = case_when(
+          ESC %in% c("1", "2") ~ "Nenhuma/Fund.Inc.",
+          ESC %in% c("3", "4") ~ "Fund.Comp./Medio Inc.",
+          ESC == "5" ~ "Medio Comp./Sup.Inc.",
+          ESC == "6" ~ "Superior Comp.",
+          TRUE ~ "Ignorada"
+        )
+      )
 
-    sim_all[[as.character(ano)]] <- sim_materno
-    cat(sprintf("OK (%d óbitos maternos)\n", nrow(sim_materno)))
+    rm(proc); gc(verbose = FALSE)
+
+    of <- mat %>% filter(obito_oficial)
+
+    # Agregar
+    obitos_nac[[as.character(ano)]] <- tibble(
+      ano = ano, obitos_maternos = nrow(of)
+    )
+
+    obitos_uf[[as.character(ano)]] <- of %>%
+      count(uf_cod) %>%
+      mutate(ano = ano) %>%
+      rename(obitos = n)
+
+    obitos_raca[[as.character(ano)]] <- of %>%
+      count(raca_cor) %>%
+      mutate(ano = ano) %>%
+      rename(obitos = n)
+
+    obitos_idade[[as.character(ano)]] <- of %>%
+      count(faixa_idade) %>%
+      mutate(ano = ano) %>%
+      rename(obitos = n)
+
+    obitos_esc[[as.character(ano)]] <- of %>%
+      count(escolaridade_grupo) %>%
+      mutate(ano = ano) %>%
+      rename(obitos = n)
+
+    obitos_causa[[as.character(ano)]] <- of %>%
+      count(causa_grupo) %>%
+      mutate(ano = ano) %>%
+      rename(obitos = n)
+
+    cat(sprintf("OK (%d óbitos maternos)\n", nrow(of)))
+    rm(mat, of); gc(verbose = FALSE)
+
   }, error = function(e) {
     cat(sprintf("ERRO: %s\n", e$message))
   })
 }
 
-# Combinar todos os anos
-if (length(sim_all) > 0) {
-  sim_completo <- bind_rows(sim_all)
+# Consolidar SIM
+df_obitos_nac <- bind_rows(obitos_nac)
+df_obitos_uf <- bind_rows(obitos_uf)
+df_obitos_raca <- bind_rows(obitos_raca)
+df_obitos_idade <- bind_rows(obitos_idade)
+df_obitos_esc <- bind_rows(obitos_esc)
+df_obitos_causa <- bind_rows(obitos_causa)
 
-  # Salvar dados brutos
-  saveRDS(sim_completo, file.path(dir_dados, "sim_obitos_maternos_2000_2024.rds"))
-  cat(sprintf("\n   Total de óbitos maternos baixados: %d\n", nrow(sim_completo)))
-  cat("   Arquivo salvo: sim_obitos_maternos_2000_2024.rds\n\n")
-} else {
-  cat("\n   AVISO: Nenhum dado do SIM foi baixado.\n\n")
-}
+cat(sprintf("\n   Total SIM: %d óbitos em %d anos\n\n",
+            sum(df_obitos_nac$obitos_maternos), nrow(df_obitos_nac)))
 
 # ============================================================================
-# 2. DOWNLOAD DOS NASCIDOS VIVOS (SINASC)
+# 2. SINASC — Agregar ano a ano (só contagens)
 # ============================================================================
 
-cat("2. Baixando dados de nascidos vivos (SINASC/DATASUS)...\n")
-cat("   Isto pode demorar vários minutos por ano.\n\n")
+cat("2. Baixando e agregando SINASC (nascidos vivos)...\n\n")
 
-sinasc_all <- list()
+nv_nac <- list()
+nv_uf <- list()
+nv_raca <- list()
+nv_idade <- list()
 
 for (ano in anos_download) {
   cat(sprintf("   SINASC %d ... ", ano))
   tryCatch({
-    sinasc_ano <- fetch_datasus(
-      year_start = ano,
-      year_end = ano,
+    raw <- fetch_datasus(
+      year_start = ano, year_end = ano,
       information_system = "SINASC"
     )
+    proc <- process_sinasc(raw)
+    rm(raw); gc(verbose = FALSE)
 
-    sinasc_proc <- process_sinasc(sinasc_ano)
-    sinasc_proc$ano_nasc <- ano
+    proc <- proc %>%
+      mutate(
+        uf_cod = substr(CODMUNRES, 1, 2),
+        raca_cor = case_when(
+          RACACOR == "1" ~ "Branca",
+          RACACOR == "2" ~ "Preta",
+          RACACOR == "3" ~ "Amarela",
+          RACACOR == "4" ~ "Parda",
+          RACACOR == "5" ~ "Indigena",
+          TRUE ~ "Ignorada"
+        ),
+        idade_mae = as.numeric(IDADEMAE),
+        faixa_idade = case_when(
+          idade_mae < 20 ~ "<20",
+          idade_mae <= 34 ~ "20-34",
+          idade_mae >= 35 ~ ">=35",
+          TRUE ~ "Ignorada"
+        )
+      )
 
-    sinasc_all[[as.character(ano)]] <- sinasc_proc
-    cat(sprintf("OK (%d nascidos vivos)\n", nrow(sinasc_proc)))
+    nv_nac[[as.character(ano)]] <- tibble(
+      ano = ano, nascidos_vivos = nrow(proc)
+    )
+
+    nv_uf[[as.character(ano)]] <- proc %>%
+      count(uf_cod) %>%
+      mutate(ano = ano) %>%
+      rename(nv = n)
+
+    nv_raca[[as.character(ano)]] <- proc %>%
+      count(raca_cor) %>%
+      mutate(ano = ano) %>%
+      rename(nv = n)
+
+    nv_idade[[as.character(ano)]] <- proc %>%
+      count(faixa_idade) %>%
+      mutate(ano = ano) %>%
+      rename(nv = n)
+
+    cat(sprintf("OK (%s nascidos vivos)\n",
+                format(nrow(proc), big.mark = ".")))
+    rm(proc); gc(verbose = FALSE)
+
   }, error = function(e) {
     cat(sprintf("ERRO: %s\n", e$message))
   })
 }
 
-if (length(sinasc_all) > 0) {
-  sinasc_completo <- bind_rows(sinasc_all)
-  saveRDS(sinasc_completo, file.path(dir_dados, "sinasc_nascidos_vivos_2000_2024.rds"))
-  cat(sprintf("\n   Total de nascidos vivos baixados: %d\n", nrow(sinasc_completo)))
-  cat("   Arquivo salvo: sinasc_nascidos_vivos_2000_2024.rds\n\n")
-} else {
-  cat("\n   AVISO: Nenhum dado do SINASC foi baixado.\n\n")
-}
+# Consolidar SINASC
+df_nv_nac <- bind_rows(nv_nac)
+df_nv_uf <- bind_rows(nv_uf)
+df_nv_raca <- bind_rows(nv_raca)
+df_nv_idade <- bind_rows(nv_idade)
+
+cat(sprintf("\n   Total SINASC: %s NV em %d anos\n\n",
+            format(sum(df_nv_nac$nascidos_vivos), big.mark = "."),
+            nrow(df_nv_nac)))
 
 # ============================================================================
-# 3. CONSTRUIR BANCO ANALÍTICO AGREGADO
+# 3. CONSTRUIR BANCOS ANALÍTICOS
 # ============================================================================
 
-cat("3. Construindo banco analítico agregado...\n")
+cat("3. Construindo bancos analíticos...\n")
 
-if (exists("sim_completo") && exists("sinasc_completo")) {
+# Nacional
+banco_nacional <- df_obitos_nac %>%
+  left_join(df_nv_nac, by = "ano") %>%
+  mutate(rmm = obitos_maternos / nascidos_vivos * 100000)
 
-  # --- Mapeamento UF -> Região ---
-  uf_regiao <- data.frame(
-    uf_sigla = c("AC","AM","AP","PA","RO","RR","TO",
-                 "AL","BA","CE","MA","PB","PE","PI","RN","SE",
-                 "ES","MG","RJ","SP",
-                 "PR","RS","SC",
-                 "DF","GO","MS","MT"),
-    regiao = c(rep("Norte",7), rep("Nordeste",9), rep("Sudeste",4),
-               rep("Sul",3), rep("Centro-Oeste",4)),
-    stringsAsFactors = FALSE
-  )
+# Por UF
+banco_uf <- df_obitos_uf %>%
+  left_join(df_nv_uf, by = c("ano", "uf_cod")) %>%
+  left_join(cod_uf, by = c("uf_cod" = "cod")) %>%
+  mutate(rmm = obitos / nv * 100000) %>%
+  filter(!is.na(uf_sigla))
 
-  # --- 3.1 Óbitos maternos por ano, UF, causa ---
-  # Classificar causas
-  sim_analise <- sim_completo %>%
-    mutate(
-      uf_res = substr(CODMUNRES, 1, 2),
-      causa_grupo = case_when(
-        grepl("^O1[0-6]", CAUSABAS) ~ "Hipertensivas",
-        grepl("^O4[4-6]|^O67|^O72", CAUSABAS) ~ "Hemorragia",
-        grepl("^O85|^O86", CAUSABAS) ~ "Infeccao_puerperal",
-        grepl("^O0[0-8]", CAUSABAS) ~ "Abortamento",
-        grepl("^O98|^O99", CAUSABAS) ~ "Causas_indiretas",
-        TRUE ~ "Outras_diretas"
-      ),
-      # Raça/cor
-      raca_cor = case_when(
-        RACACOR == "1" ~ "Branca",
-        RACACOR == "2" ~ "Preta",
-        RACACOR == "3" ~ "Amarela",
-        RACACOR == "4" ~ "Parda",
-        RACACOR == "5" ~ "Indigena",
-        TRUE ~ "Ignorada"
-      ),
-      # Faixa etária
-      idade_num = as.numeric(IDADE),
-      faixa_idade = case_when(
-        idade_num < 20 ~ "<20",
-        idade_num >= 20 & idade_num <= 34 ~ "20-34",
-        idade_num >= 35 ~ ">=35",
-        TRUE ~ "Ignorada"
-      ),
-      # Escolaridade
-      escolaridade_grupo = case_when(
-        ESC %in% c("1", "2") ~ "Nenhuma/Fund.Inc.",
-        ESC %in% c("3", "4") ~ "Fund.Comp./Medio Inc.",
-        ESC == "5" ~ "Medio Comp./Sup.Inc.",
-        ESC == "6" ~ "Superior Comp.",
-        TRUE ~ "Ignorada"
-      ),
-      # Excluir tardios (O96-O97) do indicador principal
-      morte_tardia = grepl("^O9[67]", CAUSABAS),
-      # CID para indicador oficial: O00-O95, O98-O99
-      obito_materno_oficial = grepl("^O", CAUSABAS) &
-        !grepl("^O9[67]", CAUSABAS)
-    )
+# Por região
+banco_regiao <- banco_uf %>%
+  group_by(ano, regiao) %>%
+  summarise(
+    obitos_maternos = sum(obitos, na.rm = TRUE),
+    nascidos_vivos = sum(nv, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(rmm = obitos_maternos / nascidos_vivos * 100000)
 
-  # --- 3.2 Tabela: óbitos por ano e UF ---
-  obitos_uf_ano <- sim_analise %>%
-    filter(obito_materno_oficial) %>%
-    group_by(ano_obito, uf_res) %>%
-    summarise(obitos_maternos = n(), .groups = "drop")
+# Salvar tudo
+saveRDS(banco_nacional,
+        file.path(dir_dados, "banco_analitico_nacional.rds"))
+saveRDS(banco_regiao,
+        file.path(dir_dados, "banco_analitico_regiao.rds"))
+saveRDS(banco_uf,
+        file.path(dir_dados, "banco_analitico_uf.rds"))
+saveRDS(df_obitos_raca,
+        file.path(dir_dados, "obitos_raca.rds"))
+saveRDS(df_obitos_idade,
+        file.path(dir_dados, "obitos_idade.rds"))
+saveRDS(df_obitos_esc,
+        file.path(dir_dados, "obitos_escolaridade.rds"))
+saveRDS(df_obitos_causa,
+        file.path(dir_dados, "obitos_causa.rds"))
+saveRDS(df_nv_raca,
+        file.path(dir_dados, "nv_raca.rds"))
+saveRDS(df_nv_idade,
+        file.path(dir_dados, "nv_idade.rds"))
 
-  # --- 3.3 Nascidos vivos por ano e UF ---
-  sinasc_analise <- sinasc_completo %>%
-    mutate(uf_res = substr(CODMUNRES, 1, 2))
+# Excel
+write_xlsx(list(
+  Nacional = banco_nacional,
+  Regiao = banco_regiao,
+  UF = banco_uf %>% select(ano, uf_sigla, regiao, obitos, nv, rmm),
+  Obitos_Raca = df_obitos_raca,
+  Obitos_Idade = df_obitos_idade,
+  Obitos_Escolaridade = df_obitos_esc,
+  Obitos_Causa = df_obitos_causa
+), file.path(dir_dados, "banco_analitico_completo.xlsx"))
 
-  nv_uf_ano <- sinasc_analise %>%
-    group_by(ano_nasc, uf_res) %>%
-    summarise(nascidos_vivos = n(), .groups = "drop")
+cat("   Bancos salvos em:", dir_dados, "\n\n")
 
-  # --- 3.4 Código UF -> Sigla ---
-  cod_uf <- data.frame(
-    cod = c("11","12","13","14","15","16","17",
-            "21","22","23","24","25","26","27","28","29",
-            "31","32","33","35",
-            "41","42","43",
-            "50","51","52","53"),
-    uf_sigla = c("RO","AC","AM","RR","PA","AP","TO",
-                 "MA","PI","CE","RN","PB","PE","AL","SE","BA",
-                 "MG","ES","RJ","SP",
-                 "PR","SC","RS",
-                 "MS","MT","GO","DF"),
-    stringsAsFactors = FALSE
-  )
-
-  # --- 3.5 Montar banco analítico ---
-  banco_analitico <- obitos_uf_ano %>%
-    rename(cod = uf_res, ano = ano_obito) %>%
-    full_join(nv_uf_ano %>% rename(cod = uf_res, ano = ano_nasc),
-              by = c("ano", "cod")) %>%
-    left_join(cod_uf, by = "cod") %>%
-    left_join(uf_regiao, by = "uf_sigla") %>%
-    mutate(
-      obitos_maternos = replace_na(obitos_maternos, 0),
-      nascidos_vivos = replace_na(nascidos_vivos, 0),
-      rmm = ifelse(nascidos_vivos > 0,
-                    obitos_maternos / nascidos_vivos * 100000, NA)
-    ) %>%
-    filter(!is.na(uf_sigla)) %>%
-    arrange(ano, uf_sigla)
-
-  # --- 3.6 Banco nacional ---
-  banco_nacional <- banco_analitico %>%
-    group_by(ano) %>%
-    summarise(
-      obitos_maternos = sum(obitos_maternos),
-      nascidos_vivos = sum(nascidos_vivos),
-      .groups = "drop"
-    ) %>%
-    mutate(rmm = obitos_maternos / nascidos_vivos * 100000)
-
-  # --- 3.7 Banco por região ---
-  banco_regiao <- banco_analitico %>%
-    group_by(ano, regiao) %>%
-    summarise(
-      obitos_maternos = sum(obitos_maternos),
-      nascidos_vivos = sum(nascidos_vivos),
-      .groups = "drop"
-    ) %>%
-    mutate(rmm = obitos_maternos / nascidos_vivos * 100000)
-
-  # --- 3.8 Óbitos por raça/cor ---
-  obitos_raca <- sim_analise %>%
-    filter(obito_materno_oficial) %>%
-    group_by(ano_obito, raca_cor) %>%
-    summarise(obitos = n(), .groups = "drop") %>%
-    rename(ano = ano_obito)
-
-  # --- 3.9 Óbitos por faixa etária ---
-  obitos_idade <- sim_analise %>%
-    filter(obito_materno_oficial) %>%
-    group_by(ano_obito, faixa_idade) %>%
-    summarise(obitos = n(), .groups = "drop") %>%
-    rename(ano = ano_obito)
-
-  # --- 3.10 Óbitos por escolaridade ---
-  obitos_escolaridade <- sim_analise %>%
-    filter(obito_materno_oficial) %>%
-    group_by(ano_obito, escolaridade_grupo) %>%
-    summarise(obitos = n(), .groups = "drop") %>%
-    rename(ano = ano_obito)
-
-  # --- 3.11 Óbitos por causa ---
-  obitos_causa <- sim_analise %>%
-    filter(obito_materno_oficial) %>%
-    group_by(ano_obito, causa_grupo) %>%
-    summarise(obitos = n(), .groups = "drop") %>%
-    rename(ano = ano_obito)
-
-  # --- Salvar tudo ---
-  saveRDS(banco_analitico, file.path(dir_dados, "banco_analitico_uf.rds"))
-  saveRDS(banco_nacional, file.path(dir_dados, "banco_analitico_nacional.rds"))
-  saveRDS(banco_regiao, file.path(dir_dados, "banco_analitico_regiao.rds"))
-  saveRDS(obitos_raca, file.path(dir_dados, "obitos_raca.rds"))
-  saveRDS(obitos_idade, file.path(dir_dados, "obitos_idade.rds"))
-  saveRDS(obitos_escolaridade, file.path(dir_dados, "obitos_escolaridade.rds"))
-  saveRDS(obitos_causa, file.path(dir_dados, "obitos_causa.rds"))
-
-  # Excel consolidado
-  write_xlsx(list(
-    "Nacional" = banco_nacional,
-    "Regiao" = banco_regiao,
-    "UF" = banco_analitico,
-    "Raca_Cor" = obitos_raca,
-    "Faixa_Etaria" = obitos_idade,
-    "Escolaridade" = obitos_escolaridade,
-    "Causa" = obitos_causa
-  ), file.path(dir_dados, "banco_analitico_completo.xlsx"))
-
-  cat("\n   Banco analítico construído com sucesso!\n")
-  cat("   Ficheiros salvos em:", dir_dados, "\n\n")
-
-  # --- Resumo ---
-  cat("RESUMO DOS DADOS:\n")
-  cat(sprintf("   Período: %d - %d\n", min(banco_nacional$ano),
-              max(banco_nacional$ano)))
-  cat(sprintf("   Total óbitos maternos: %d\n",
-              sum(banco_nacional$obitos_maternos)))
-  cat(sprintf("   Total nascidos vivos: %s\n",
-              format(sum(banco_nacional$nascidos_vivos), big.mark = ".")))
-  cat(sprintf("   RMM média nacional: %.1f por 100.000 NV\n",
-              mean(banco_nacional$rmm, na.rm = TRUE)))
-  cat(sprintf("   RMM mínima: %.1f (%d)\n",
-              min(banco_nacional$rmm, na.rm = TRUE),
-              banco_nacional$ano[which.min(banco_nacional$rmm)]))
-  cat(sprintf("   RMM máxima: %.1f (%d)\n",
-              max(banco_nacional$rmm, na.rm = TRUE),
-              banco_nacional$ano[which.max(banco_nacional$rmm)]))
-
-} else {
-  cat("   AVISO: Dados não disponíveis para construir banco analítico.\n")
-  cat("   Verifique se os downloads do SIM e SINASC foram bem-sucedidos.\n")
-}
-
-cat("\n============================================================\n")
-cat("  DOWNLOAD CONCLUÍDO\n")
+# Resumo
+cat("============================================================\n")
+cat("  RESUMO\n")
+cat("============================================================\n")
+cat(sprintf("  Período: %d - %d\n",
+            min(banco_nacional$ano), max(banco_nacional$ano)))
+cat(sprintf("  Total óbitos maternos: %s\n",
+            format(sum(banco_nacional$obitos_maternos), big.mark = ".")))
+cat(sprintf("  Total nascidos vivos: %s\n",
+            format(sum(banco_nacional$nascidos_vivos), big.mark = ".")))
+cat(sprintf("  RMM média: %.1f por 100.000 NV\n",
+            mean(banco_nacional$rmm, na.rm = TRUE)))
+cat(sprintf("  RMM mínima: %.1f (%d)\n",
+            min(banco_nacional$rmm, na.rm = TRUE),
+            banco_nacional$ano[which.min(banco_nacional$rmm)]))
+cat(sprintf("  RMM máxima: %.1f (%d)\n",
+            max(banco_nacional$rmm, na.rm = TRUE),
+            banco_nacional$ano[which.max(banco_nacional$rmm)]))
 cat("============================================================\n")

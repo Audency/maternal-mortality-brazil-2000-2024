@@ -885,7 +885,7 @@ ts_rmm <- ts(rmm_nacional$rmm, start = 2000, frequency = 1)
 
 # Auto ARIMA
 fit_arima <- auto.arima(ts_rmm)
-fc_arima <- forecast(fit_arima, h = 3)
+fc_arima <- forecast(fit_arima, h = 5)
 
 cat("   Modelo ARIMA selecionado:", paste(arimaorder(fit_arima), collapse = ","), "\n")
 cat("   Previsão 2024-2026:\n")

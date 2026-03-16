@@ -1,4 +1,4 @@
-# Trends, determinants, and the impact of the COVID-19 pandemic on maternal mortality in Brazil, 2000–2023: an interrupted time-series analysis
+# Trends, inequalities, and the impact of Rede Cegonha and COVID-19 on maternal mortality in Brazil, 2000–2023: a national interrupted time-series analysis
 
 ## Authors
 
@@ -226,9 +226,25 @@ The COVID-19 effect was substantial: the level change coefficient was 0·606 (p 
 
 ### Exploratory forecasts
 
-The ARIMA model projected an MMR of approximately 64 (95% PI 43–85) for 2024, suggesting stabilisation near pre-pandemic levels. These projections are inertial and do not account for policy changes (figure 9).
+The ARIMA model projected MMR values of approximately 64 (95% PI 43–85) for 2024, 63 (39–86) for 2025, 63 (39–86) for 2026, 63 (39–86) for 2027, and 63 (39–86) for 2028, suggesting stabilisation near pre-pandemic levels over the next five years. These projections are inertial and do not account for policy changes (figure 9).
 
-![Figure 9. Exploratory ARIMA forecast of the maternal mortality ratio, Brazil](resultados/figuras_publicacao/figure9.png)
+![Figure 9. Exploratory ARIMA forecast of the maternal mortality ratio, Brazil, 2024–2028](resultados/figuras_publicacao/figure9.png)
+
+### Profile of maternal deaths and covariates
+
+Table 8 presents the detailed profile of maternal deaths by period, including marital status, place of death, type of obstetric death, medical assistance, autopsy, and death investigation status. Most deaths occurred in hospitals (approximately 85%), and medical assistance was reported in approximately 75% of cases. Autopsy was performed in only 20% of cases. Death investigation increased substantially over the study period.
+
+Respiratory diseases emerged as a critical factor during 2020–2021 (table 9, figure 11). Before the pandemic, pneumonia (ICD-10 J18.9, J15.9) accounted for a small proportion of maternal deaths. During the pandemic, COVID-19 (U07.1, B34.2) and severe acute respiratory syndrome became major contributors, appearing in approximately 35% of maternal death certificates in 2020–2021.
+
+![Figure 11. Respiratory diseases in maternal deaths by year, Brazil, 2000–2023](resultados/figuras_publicacao/figure11.png)
+
+### Years of Potential Life Lost (YPLL)
+
+The analysis of YPLL, calculated using a life expectancy limit of 80·77 years for Brazilian women, revealed substantial premature mortality (table 10, figure 10). The mean YPLL per maternal death was approximately 50·6 years, reflecting the young age at which these deaths occur (mean age ~30 years). Total YPLL surged from approximately 82 000 in 2019 to 144 000 in 2021, a 76% increase driven by the COVID-19 pandemic. Hypertensive disorders and haemorrhage accounted for the largest share of YPLL (figure 12).
+
+![Figure 10. Total Years of Potential Life Lost (YPLL) from maternal deaths, Brazil, 2000–2023](resultados/figuras_publicacao/figure10.png)
+
+![Figure 12. YPLL by cause of maternal death, Brazil, 2000–2023](resultados/figuras_publicacao/figure12.png)
 
 ## Discussion
 

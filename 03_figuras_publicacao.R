@@ -495,10 +495,10 @@ suppressPackageStartupMessages(library(forecast))
 
 ts_rmm <- ts(banco_nac$rmm, start = min_ano, frequency = 1)
 fit_arima <- auto.arima(ts_rmm)
-fc <- forecast(fit_arima, h = 3)
+fc <- forecast(fit_arima, h = 5)
 
 fc_df <- data.frame(
-  ano = max_ano + 1:3,
+  ano = max_ano + 1:5,
   mean = as.numeric(fc$mean),
   lo95 = as.numeric(fc$lower[, 2]),
   hi95 = as.numeric(fc$upper[, 2]),
